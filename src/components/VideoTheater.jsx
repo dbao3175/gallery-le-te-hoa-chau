@@ -1,138 +1,104 @@
-import React, { useState, useRef } from 'react';
-import { Play, Film, CheckCircle2, Sparkles, Volume2, Maximize } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Film, Play, RotateCcw } from 'lucide-react';
 import { videoList } from '../data/videoData';
+import './VideoTheater.css';
 
 export default function VideoTheater() {
   const [selectedVideo, setSelectedVideo] = useState(videoList[0]);
+  const [isPlayerOpen, setIsPlayerOpen] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const videoRef = useRef(null);
+  const selectedIndex = videoList.findIndex((video) => video.id === selectedVideo.id);
 
-  const handleSelect = (vid) => {
-    setSelectedVideo(vid);
+  const selectVideo = (video) => {
+    if (video.id === selectedVideo.id) return;
+    setSelectedVideo(video);
+    setIsPlayerOpen(false);
     setVideoError(false);
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.play().catch(() => {
-        // Autoplay may be blocked by browser policy until user gesture
-      });
-    }
+  };
+
+  const openPlayer = () => {
+    setVideoError(false);
+    setIsPlayerOpen(true);
   };
 
   return (
-    <section className="video-cinema-section">
+    <section className="archive-film" id="video-section-target" aria-labelledby="film-heading">
       <div className="container-wide">
-        {/* Section Header */}
-        <div className="cinema-header-meta">
-          <div className="cinema-meta-tag">
-            <Film size={14} className="text-gold" />
-            <span>PHÒNG CHIẾU PHIM TƯ LIỆU GỐC • 5 HỒI ĐIỆN ẢNH</span>
+        <div className="archive-film-heading">
+          <div>
+            <p className="archive-film-eyebrow"><Film size={15} aria-hidden="true" /> Thước phim tư liệu</p>
+            <h2 id="film-heading">Một ngày lễ,<br /><em>vẹn nguyên ký ức.</em></h2>
           </div>
-          <h2 className="cinema-section-title font-serif">
-            Thước Phim Lễ Tế Đình Làng Hoà Châu 2023
-          </h2>
-          <p className="cinema-section-sub">
-            Trực tiếp theo dõi từng hồi nghi lễ, tiếng chiêng trống linh thiêng và nét tôn nghiêm của các Bác bô lão qua các đoạn phim ghi hình thực tế.
-          </p>
+          <p className="archive-film-intro">Theo từng bước chân đoàn tế lễ, lắng nghe tiếng chiêng trống và trở về với không khí ngày hội đình làng Hoà Châu năm 2023.</p>
         </div>
 
-        {/* Master Cinema Stage */}
-        <div className="cinema-theater-grid">
-          {/* Main Player Column */}
-          <div className="main-player-col">
-            <div className="player-viewport-box">
-              {videoError ? (
-                <div className="video-cloud-notice">
-                  <div className="cloud-notice-icon font-cinzel">HC</div>
-                  <h4 className="cloud-notice-title">Tư Liệu Video Gốc (Dung Lượng 2.5 GB)</h4>
-                  <p className="cloud-notice-desc">
-                    Do giới hạn dung lượng tải lên 100MB của GitHub & Vercel, các tệp video gốc 4K/FullHD được phát mượt mà khi chạy cục bộ (Localhost). Khi đưa lên Vercel, bạn có thể tải video lên YouTube (chế độ Không Công Khai) hoặc Google Drive rồi gắn link để xem trực tuyến mọi nơi.
-                  </p>
-                </div>
-              ) : (
+        <div className="archive-film-layout">
+          <div className="archive-film-main">
+            <div className="archive-film-screen">
+              {isPlayerOpen && !videoError ? (
                 <video
-                  ref={videoRef}
-                  key={selectedVideo.src}
+                  key={selectedVideo.id}
+                  className="archive-film-player"
                   controls
+                  autoPlay
                   playsInline
                   preload="metadata"
+                  src={selectedVideo.src}
                   poster={selectedVideo.poster}
-                  className="main-html5-video"
                   onError={() => setVideoError(true)}
+                  aria-label={selectedVideo.title}
                 >
-                  <source src={selectedVideo.src} type={selectedVideo.src.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
-                  Trình duyệt của bạn không hỗ trợ phát video HTML5.
+                  Trình duyệt của bạn không hỗ trợ phát video.
                 </video>
+              ) : (
+                <div className="archive-film-cover">
+                  <img src={selectedVideo.poster} alt={`Khung hình từ ${selectedVideo.title}`} />
+                  <span className="archive-film-cover-label">Hoà Châu · 2023</span>
+                  <div className="archive-film-cover-action">
+                    <button className="archive-film-play" onClick={openPlayer} aria-label={videoError ? 'Thử phát lại video' : `Phát ${selectedVideo.title}`}>
+                      {videoError ? <RotateCcw size={24} aria-hidden="true" /> : <Play size={25} fill="currentColor" aria-hidden="true" />}
+                    </button>
+                    <span>{videoError ? 'Thử phát lại' : 'Xem thước phim'}</span>
+                  </div>
+                  <span className="archive-film-cover-episode">{selectedVideo.episode}</span>
+                </div>
               )}
             </div>
 
-            {/* Video Meta Info */}
-            <div className="player-info-deck">
-              <div className="deck-title-row">
-                <div>
-                  <div className="deck-episode-pill">
-                    <span>{selectedVideo.episode}</span>
-                    <span className="deck-quality-tag">{selectedVideo.quality}</span>
-                    <span className="deck-size-tag">{selectedVideo.size}</span>
-                  </div>
-                  <h3 className="deck-video-title">{selectedVideo.title}</h3>
-                </div>
-              </div>
+            {videoError && (
+              <p className="archive-film-notice" role="status">Video hiện chưa khả dụng. Bạn vẫn có thể khám phá các khung hình trong thư viện ảnh hoặc thử phát lại sau.</p>
+            )}
 
-              <p className="deck-desc">{selectedVideo.description}</p>
-
-              {/* Highlights List */}
-              <div className="deck-highlights-box">
-                <span className="hl-label">Điểm nổi bật trong hồi này:</span>
-                <div className="hl-grid">
-                  {selectedVideo.highlights.map((hl, i) => (
-                    <div key={i} className="hl-item">
-                      <CheckCircle2 size={14} className="text-gold" />
-                      <span>{hl}</span>
-                    </div>
+            <div className="archive-film-detail">
+              <div className="archive-film-meta"><span>{selectedVideo.episode}</span><span>Tư liệu năm 2023</span><span>{selectedVideo.quality}</span></div>
+              <h3>{selectedVideo.title}</h3>
+              <p className="archive-film-description">{selectedVideo.description}</p>
+              <div className="archive-film-highlights">
+                <p>Trong thước phim</p>
+                <ul>
+                  {selectedVideo.highlights.map((highlight) => (
+                    <li key={highlight}><span aria-hidden="true">—</span>{highlight}</li>
                   ))}
-                </div>
+                </ul>
               </div>
             </div>
           </div>
 
-          {/* Playlist Column */}
-          <div className="playlist-sidebar-col">
-            <div className="playlist-header">
-              <span className="playlist-heading">Danh Sách 5 Tập Phim</span>
-              <span className="playlist-count">5 Hồi</span>
-            </div>
-
-            <div className="playlist-cards-list">
-              {videoList.map((vid) => {
-                const isActive = vid.id === selectedVideo.id;
+          <aside className="archive-film-playlist" aria-label="Danh sách thước phim">
+            <div className="archive-film-playlist-heading"><h3>Các thước phim</h3><span>{String(selectedIndex + 1).padStart(2, '0')} / {String(videoList.length).padStart(2, '0')}</span></div>
+            <div className="archive-film-episodes">
+              {videoList.map((video, index) => {
+                const isSelected = video.id === selectedVideo.id;
                 return (
-                  <div
-                    key={vid.id}
-                    className={`playlist-item-card ${isActive ? 'is-playing' : ''}`}
-                    onClick={() => handleSelect(vid)}
-                  >
-                    <div className="item-poster-frame">
-                      <img src={vid.poster} alt={vid.title} className="item-poster-img" />
-                      <div className="item-play-icon-overlay">
-                        <Play size={18} fill={isActive ? "#d4af37" : "#fff"} />
-                      </div>
-                      <span className="item-ep-badge">{vid.episode}</span>
-                    </div>
-
-                    <div className="item-text-info">
-                      <h4 className="item-title">{vid.title}</h4>
-                      <p className="item-sub">{vid.subtitle}</p>
-                      <div className="item-meta-tags">
-                        <span className="meta-size">{vid.size}</span>
-                        <span className="meta-sep">•</span>
-                        <span className="meta-quality">{vid.quality}</span>
-                      </div>
-                    </div>
-                  </div>
+                  <button className={`archive-film-episode${isSelected ? ' is-selected' : ''}`} key={video.id} onClick={() => selectVideo(video)} aria-pressed={isSelected}>
+                    <div className="archive-film-thumbnail"><img src={video.poster} alt="" loading="lazy" /><span>{String(index + 1).padStart(2, '0')}</span></div>
+                    <div className="archive-film-episode-info"><span>{video.episode}</span><h4>{video.title}</h4><p>{isSelected ? 'Đang chọn' : 'Chọn thước phim'}<ArrowRight size={12} aria-hidden="true" /></p></div>
+                  </button>
                 );
               })}
             </div>
-          </div>
+            <p className="archive-film-playlist-note">Những thanh âm và hình ảnh của một ngày hội làng, được gìn giữ để cùng trở về.</p>
+          </aside>
         </div>
       </div>
     </section>

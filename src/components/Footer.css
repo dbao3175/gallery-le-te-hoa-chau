@@ -1,0 +1,34 @@
+.heritage-footer { padding: 55px 0 25px; background: #292722; color: #f7f4ed; }
+.heritage-footer-main { display: flex; align-items: center; justify-content: space-between; gap: 35px; padding-bottom: 45px; }
+.heritage-footer-brand { display: flex; align-items: center; gap: 16px; }
+.heritage-footer-seal { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 55px; height: 65px; border: 1px solid #a38b6a; color: #c9ad83; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 25px; line-height: 1.05; }
+.heritage-footer-seal > span { margin-top: 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 7px; letter-spacing: 2.3px; }
+.heritage-footer-brand > div > p { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 28px; font-weight: 500; }
+.heritage-footer-brand > div > span { color: #afa89a; font-size: 9px; letter-spacing: .6px; }
+.heritage-footer-statement { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(29px, 3vw, 43px); font-weight: 400; line-height: 1.1; }
+.heritage-footer-statement em { color: #b9a78b; font-weight: 400; }
+.heritage-footer-top { display: flex; align-items: center; gap: 24px; padding: 12px 0; border-bottom: 1px solid #70695d; color: #d3cabc; font-size: 10px; transition: color .2s; }
+.heritage-footer-top:hover { color: #fffaf1; }
+.heritage-footer-top:focus-visible { outline: 2px solid #b9a78b; outline-offset: 6px; }
+.heritage-footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 22px; border-top: 1px solid #4c473f; color: #a39c8e; font-size: 9px; line-height: 1.7; }
+.heritage-footer-bottom > span { text-align: right; }
+
+@media (max-width: 900px) {
+  .heritage-footer-main { flex-wrap: wrap; gap: 30px; }
+  .heritage-footer-statement { order: 3; width: 100%; font-size: 37px; }
+}
+
+@media (max-width: 560px) {
+  .heritage-footer { padding: 36px 0 30px; }
+  .heritage-footer-main { gap: 28px; padding-bottom: 30px; }
+  .heritage-footer-brand { gap: 12px; }
+  .heritage-footer-brand > div > p { font-size: 25px; }
+  .heritage-footer-seal { width: 45px; height: 55px; font-size: 23px; }
+  .heritage-footer-top { gap: 12px; font-size: 9px; }
+  .heritage-footer-bottom { display: block; }
+  .heritage-footer-bottom > span { display: block; margin-top: 10px; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heritage-footer * { transition: none !important; }
+}

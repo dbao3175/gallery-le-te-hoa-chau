@@ -1,28 +1,22 @@
 import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import './Footer.css';
 
 export default function Footer({ onBackToTop }) {
   return (
-    <footer className="museum-footer">
-      <div className="container-wide footer-inner">
-        <div className="footer-top-brand">
-          <span className="footer-brand-title font-cinzel">HOÀ CHÂU KÝ SỰ</span>
-          <span className="footer-brand-sep">•</span>
-          <span className="footer-brand-sub">Kho Tàng Di Sản & Kỷ Niệm Lễ Tế Bô Lão Đình Làng Hoà Châu</span>
+    <footer className="heritage-footer">
+      <div className="container-wide">
+        <div className="heritage-footer-main">
+          <div className="heritage-footer-brand">
+            <span className="heritage-footer-seal" aria-hidden="true">HC<span>2023</span></span>
+            <div><p>Hoà Châu Ký Sự</p><span>Một miền quê. Một miền ký ức.</span></div>
+          </div>
+          <p className="heritage-footer-statement">Lưu giữ hôm nay.<br /><em>Trao lại mai sau.</em></p>
+          <button className="heritage-footer-top" onClick={onBackToTop}><span>Về đầu trang</span><ArrowUpRight size={18} aria-hidden="true" /></button>
         </div>
-
-        <p className="footer-tribute-msg">
-          Kính dâng lòng tôn kính và tri ân sâu sắc đến chư vị bô lão và các Bác trong Ban Tế Lễ Đình Làng Hoà Châu 2023.
-        </p>
-
-        <div className="footer-bottom-bar">
-          <span className="footer-copy">
-            © 2023 - 2026 HOÀ CHÂU KÝ SỰ. 183 tác phẩm tư liệu được lưu trữ nguyên bản trong mã nguồn <code>src/assets/images</code>.
-          </span>
-          <button className="footer-top-link" onClick={onBackToTop}>
-            <span>Đầu Trang</span>
-            <ArrowUp size={14} />
-          </button>
+        <div className="heritage-footer-bottom">
+          <p>Trân trọng những người gìn giữ nếp xưa, và những ký ức còn mãi.</p>
+          <span>Đình làng Hoà Châu · Lễ tế 2023</span>
         </div>
       </div>
     </footer>

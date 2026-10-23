@@ -1,113 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;450;500;550;600;650;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
 
 :root {
-  /* Minimalist Luxury Palette */
-  --bg-deep: #06070a;
-  --bg-surface: #0c0f17;
-  --bg-surface-elevated: #131722;
-  --bg-glass: rgba(12, 15, 23, 0.75);
-  
-  --gold-accent: #d4af37;
-  --gold-light: #e5c875;
-  --gold-muted: rgba(212, 175, 55, 0.15);
-  --gold-glow: rgba(212, 175, 55, 0.25);
-  
-  --text-pure: #ffffff;
-  --text-body: #e2e8f0;
-  --text-muted: #8492a6;
-  --text-dim: #4e5968;
-  
-  --border-light: rgba(255, 255, 255, 0.07);
-  --border-hover: rgba(212, 175, 55, 0.35);
-  --border-active: #d4af37;
-  
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-pill: 9999px;
-  
-  --transition-fast: 0.15s ease;
-  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  background-color: var(--bg-deep);
-}
-
-body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--bg-deep);
-  color: var(--text-body);
-  line-height: 1.5;
-  overflow-x: hidden;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  color: #292722;
+  background: #f7f4ed;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --paper: #f7f4ed;
+  --ink: #292722;
+  --accent: #984d39;
+  --muted: #777269;
+  --line: #ded9cf;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --bg-deep: #f7f4ed;
+  --bg-surface: #efebe2;
+  --bg-surface-elevated: #e7e0d3;
+  --text-pure: #292722;
+  --text-body: #49463f;
+  --text-muted: #777269;
+  --text-dim: #898278;
+  --gold-accent: #984d39;
+  --gold-light: #b97c5e;
+  --gold-muted: #984d3912;
+  --border-light: #ded9cf;
+  --border-hover: #b8a992;
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-pill: 999px;
+  --transition-fast: 180ms ease;
 }
-
-/* Subtle Museum Lighting Vignette */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 15%, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
-  z-index: 1;
-}
-
-h1, h2, h3, .font-serif {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-}
-
-.font-cinzel {
-  font-family: 'Cinzel', serif;
-}
-
-/* Crisp rendering */
-img {
-  image-rendering: auto;
-  image-rendering: -webkit-optimize-contrast;
-}
-
-/* Minimal Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-deep);
-}
-::-webkit-scrollbar-thumb {
-  background: #1e2430;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gold-accent);
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font-family: inherit;
-  color: inherit;
-}
-
-.container-wide {
-  max-width: 1480px;
-  margin: 0 auto;
-  padding: 0 32px;
-}
-
-@media (max-width: 768px) {
-  .container-wide {
-    padding: 0 16px;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 110px; }
+body { min-width: 320px; font-size: 14px; line-height: 1.6; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; background: transparent; border: 0; }
+button, a, input, select { -webkit-tap-highlight-color: transparent; }
+button { touch-action: manipulation; }
+button:disabled { cursor: default; }
+button:active:not(:disabled) { transform: translateY(1px); }
+a { color: inherit; }
+img, svg { display: block; }
+img { max-width: 100%; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; }
+::selection { background: #984d3929; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+::-webkit-scrollbar { width: 7px; height: 4px; }
+::-webkit-scrollbar-thumb { background: #bdb3a3; border-radius: 8px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+.container-wide { width: min(100% - 100px, 1300px); margin-inline: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; top: -100px; left: 20px; padding: 12px 18px; background: var(--ink); color: var(--paper); z-index: 20; }
+.skip-link:focus { top: 12px; }
+@media (max-width: 1000px) { .container-wide { width: calc(100% - 64px); } }
+@media (max-width: 600px) { .container-wide { width: calc(100% - 36px); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }

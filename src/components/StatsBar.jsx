@@ -1,36 +1,9 @@
-import React from 'react';
+import { ArrowUpRight } from 'lucide-react';
 
-export default function StatsBar({ stats }) {
-  return (
-    <div className="stats-ticker-section">
-      <div className="container-wide">
-        <div className="stats-ticker-row">
-          <div className="ticker-item">
-            <span className="ticker-num">183</span>
-            <span className="ticker-txt">Tư Liệu Lưu Trữ</span>
-          </div>
-          <div className="ticker-divider">/</div>
-          <div className="ticker-item highlight-item">
-            <span className="ticker-num">{stats.realPhotos || 66}</span>
-            <span className="ticker-txt">Ảnh Chụp Thực Tế</span>
-          </div>
-          <div className="ticker-divider">/</div>
-          <div className="ticker-item">
-            <span className="ticker-num">{stats.processionPhotos || 57}</span>
-            <span className="ticker-txt">Đoàn Tế Bô Lão</span>
-          </div>
-          <div className="ticker-divider">/</div>
-          <div className="ticker-item">
-            <span className="ticker-num">{stats.ceremonyPhotos || 40}</span>
-            <span className="ticker-txt">Nghi Thức Chính Điện</span>
-          </div>
-          <div className="ticker-divider">/</div>
-          <div className="ticker-item">
-            <span className="ticker-num">3584 × 4800</span>
-            <span className="ticker-txt">Chuẩn 4K Siêu Nét</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+export default function StatsBar({ stats, albumCount, videoCount, onExplore }) {
+  return <div className="archive-strip"><div className="container-wide archive-strip-inner">
+    <p>Mỗi tấm ảnh, một câu chuyện.<br /><em>Mỗi câu chuyện, một phần di sản.</em></p>
+    <div className="archive-numbers"><div><strong>{stats.total}</strong><span>Tấm ảnh lưu giữ</span></div><div><strong>{String(albumCount).padStart(2, '0')}</strong><span>Chủ đề ký ức</span></div><div><strong>{String(videoCount).padStart(2, '0')}</strong><span>Phần phim tư liệu</span></div></div>
+    <button className="strip-link" onClick={onExplore}>Dạo bước cùng ký ức <ArrowUpRight size={18} /></button>
+  </div></div>;
 }

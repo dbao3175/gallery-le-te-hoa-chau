@@ -1,125 +1,17 @@
-import React from 'react';
-import { Search, X, Columns3, LayoutGrid, Grid3X3, Camera, Sparkles } from 'lucide-react';
+import { Search, X, Columns3, LayoutGrid, Grid3X3, Camera, ScanLine } from 'lucide-react';
 
-export default function AlbumTabs({
-  albums,
-  selectedAlbum,
-  onSelectAlbum,
-  searchQuery,
-  onSearchChange,
-  albumCounts,
-  viewMode,
-  onChangeViewMode,
-  filterType,
-  onChangeFilterType,
-  totalMatching
-}) {
-  return (
-    <div className="dock-control-wrapper">
-      <div className="container-wide">
-        {/* Sleek Category Navigation */}
-        <div className="dock-nav-strip">
-          <div className="dock-tabs-list">
-            {albums.map((alb) => {
-              const count = albumCounts[alb.id] || 0;
-              const isActive = selectedAlbum === alb.id;
+const names = { all: 'Tất cả', '01_bac_va_ky_niem': 'Bác & kỷ niệm', '02_anh_that_thu_thap': 'Ảnh thực tế', '03_doan_te_le': 'Đoàn tế lễ', '04_nghi_thuc_chinh_dien': 'Nghi thức', '05_chi_tiet_le_phuc': 'Lễ phục', '06_kho_tu_lieu_video': 'Khung hình phim', '07_guong_mat_cua_toi': 'Chân dung' };
 
-              return (
-                <button
-                  key={alb.id}
-                  className={`dock-tab-btn ${isActive ? 'is-active' : ''}`}
-                  onClick={() => onSelectAlbum(alb.id)}
-                >
-                  <span className="tab-name">{alb.name}</span>
-                  <span className="tab-badge-num">{count}</span>
-                  {isActive && <div className="tab-active-indicator" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Action Toolbar */}
-        <div className="dock-sub-toolbar">
-          {/* Integrated Search Box */}
-          <div className="dock-search-wrap">
-            <Search size={15} className="dock-search-icon" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Tìm kiếm tư liệu, bác bô lão, áo thụng, hài tế..."
-              className="dock-search-input"
-            />
-            {searchQuery && (
-              <button 
-                className="dock-search-clear" 
-                onClick={() => onSearchChange('')}
-                title="Xóa tìm kiếm"
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
-
-          {/* Quick Filter Pills */}
-          <div className="dock-filter-pills">
-            <button
-              className={`filter-pill-item ${filterType === 'all' ? 'active' : ''}`}
-              onClick={() => onChangeFilterType('all')}
-            >
-              Tất Cả
-            </button>
-            <button
-              className={`filter-pill-item ${filterType === 'real' ? 'active' : ''}`}
-              onClick={() => onChangeFilterType('real')}
-            >
-              <Camera size={13} />
-              <span>Ảnh Chụp Thật</span>
-            </button>
-            <button
-              className={`filter-pill-item ${filterType === '4k' ? 'active' : ''}`}
-              onClick={() => onChangeFilterType('4k')}
-            >
-              <Sparkles size={13} />
-              <span>Chuẩn 4K</span>
-            </button>
-          </div>
-
-          {/* View Modes */}
-          <div className="dock-view-modes">
-            <button
-              className={`view-mode-btn ${viewMode === 'masonry' ? 'active' : ''}`}
-              onClick={() => onChangeViewMode('masonry')}
-              title="Bố cục Masonry tự nhiên (Không crop)"
-            >
-              <Columns3 size={16} />
-              <span>Masonry</span>
-            </button>
-            <button
-              className={`view-mode-btn ${viewMode === 'showcase' ? 'active' : ''}`}
-              onClick={() => onChangeViewMode('showcase')}
-              title="Ảnh lớn Showcase"
-            >
-              <LayoutGrid size={16} />
-              <span>Lớn</span>
-            </button>
-            <button
-              className={`view-mode-btn ${viewMode === 'compact' ? 'active' : ''}`}
-              onClick={() => onChangeViewMode('compact')}
-              title="Lưới nhỏ Compact"
-            >
-              <Grid3X3 size={16} />
-              <span>Gọn</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Counter hint */}
-        <div className="dock-counter-hint">
-          <span>Đang hiển thị <strong>{totalMatching}</strong> tư liệu</span>
-        </div>
-      </div>
+export default function AlbumTabs({ albums, selectedAlbum, onSelectAlbum, searchQuery, onSearchChange, albumCounts, viewMode, onChangeViewMode, filterType, onChangeFilterType, totalMatching, favoritesOnly, onClearFavorites, sortOrder, onSortChange }) {
+  return <div className="collection-controls">
+    <div className="album-navigation" aria-label="Chọn chủ đề">
+      {albums.map(album => <button key={album.id} className={`album-tab ${selectedAlbum === album.id ? 'active' : ''}`} onClick={() => onSelectAlbum(album.id)} aria-pressed={selectedAlbum === album.id}>{names[album.id] || album.name}<span>{albumCounts[album.id] || 0}</span></button>)}
     </div>
-  );
+    <div className="gallery-toolbar">
+      <label className="search-field"><Search size={17} strokeWidth={1.6} /><span className="sr-only">Tìm trong bộ sưu tập</span><input type="search" value={searchQuery} onChange={e => onSearchChange(e.target.value)} placeholder="Tìm một khoảnh khắc…" />{searchQuery && <button aria-label="Xoá từ khoá" onClick={() => onSearchChange('')}><X size={15} /></button>}</label>
+      <div className="photo-filters" aria-label="Loại ảnh">{[{ id: 'all', label: 'Tất cả ảnh' }, { id: 'real', label: 'Ảnh thực tế', Icon: Camera }, { id: '4k', label: 'Độ nét cao', Icon: ScanLine }].map(({ id, label, Icon }) => <button key={id} aria-pressed={filterType === id} className={filterType === id ? 'active' : ''} onClick={() => onChangeFilterType(id)}>{Icon && <Icon size={13} />}{label}</button>)}</div>
+      <div className="view-controls" aria-label="Bố cục ảnh">{[{ id: 'masonry', label: 'Tự nhiên', Icon: Columns3 }, { id: 'showcase', label: 'Ảnh lớn', Icon: LayoutGrid }, { id: 'compact', label: 'Lưới gọn', Icon: Grid3X3 }].map(({ id, label, Icon }) => <button key={id} className={viewMode === id ? 'active' : ''} aria-label={label} title={label} aria-pressed={viewMode === id} onClick={() => onChangeViewMode(id)}><Icon size={17} strokeWidth={1.5} /></button>)}</div>
+    </div>
+    <div className="gallery-results-bar"><p role="status"><strong>{totalMatching}</strong> khoảnh khắc{favoritesOnly && <button className="saved-filter" onClick={onClearFavorites}>Đã lưu <X size={12} /></button>}</p><label>Sắp xếp: <select value={sortOrder} onChange={e => onSortChange(e.target.value)} aria-label="Sắp xếp ảnh"><option value="curated">Tuyển chọn</option><option value="name">Tên A–Z</option></select></label></div>
+  </div>;
 }
